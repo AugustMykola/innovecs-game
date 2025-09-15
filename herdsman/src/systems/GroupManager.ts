@@ -44,10 +44,4 @@ export class GroupManager {
         if (i >= 0) this.followers.splice(i, 1);
         a.setIdle();
     }
-
-
-    clear() {
-        for (const a of this.followers) a.setIdle();
-        this.followers.length = 0;
-    }
 }
