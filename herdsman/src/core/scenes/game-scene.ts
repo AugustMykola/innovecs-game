@@ -64,9 +64,9 @@ export class GameScene implements IScene {
         );
         this.root.addChild(this.hero as any);
 
-        const count: number = Math.floor(randRange(6, 12));
-        for (let i = 0; i < count; i++) {
-            if (this.animals.length >= 25) break;
+        const initial = Math.floor(randRange(6, 12));
+        for (let i = 0; i < initial; i++) {
+            if (this.animals.length >= 20) break;
             this.spawnAnimal();
         }
 
@@ -76,9 +76,11 @@ export class GameScene implements IScene {
             this.field,
             this.animals,
             (x, y) => this.factory.createAnimal(x, y),
-            2,
-            5,
-            25
+            1.5,
+            3.0,
+            20,
+            8,
+            3
         );
         this.patrol = new PatrolSystem(this.field);
     }
@@ -98,8 +100,9 @@ export class GameScene implements IScene {
         for (const a of [...this.group.followers]) {
             if (this.yard.containsXY(a.x, a.y)) {
                 this.score.add(1);
-                this.root.removeChild(a);
-                this.animals.splice(this.animals.indexOf(a), 1);
+                this.root.removeChild(a as any);
+                const idx = this.animals.indexOf(a);
+                if (idx >= 0) this.animals.splice(idx, 1);
                 this.group.removeFollower(a);
             }
         }
